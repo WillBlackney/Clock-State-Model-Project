@@ -7,7 +7,7 @@ namespace ClockMachineEngine
     // Abstract Base Class
     public abstract class State
     {
-        public ClockMachine myClockModel;
+        protected StateMachine myStateMachine;
         public abstract void OnStateEntered();
         public abstract void OnStateExitted();
     }

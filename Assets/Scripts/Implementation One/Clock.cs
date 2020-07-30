@@ -136,9 +136,6 @@ namespace ClockEngine
             if (TimeSettingState == TimeSettingState.TimeSet)
             {
                 AlarmSetTime = time;
-
-                // Should setting the alarm time clear all snooze settings?
-                // This would allow them to bypass the max snooze button presses
                 CurrentSnoozeCount = 0;
                 AutoScheduleNextAlarmRingEvent();
             }
@@ -229,8 +226,8 @@ namespace ClockEngine
     }
     public enum TimeSettingState
     {
+        NoTimeSet,
         TimeSet,
-        NoTimeSet
     }
     #endregion
 
