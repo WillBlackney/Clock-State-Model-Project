@@ -22,7 +22,6 @@ namespace ClockEngine
         private int snoozeDurationInMinutes;
 
         // Time variables
-        private bool timeIsSet;
         private DateTime currentTime;
         #endregion
 
@@ -67,12 +66,7 @@ namespace ClockEngine
         {
             get { return snoozeDurationInMinutes; }
             private set { snoozeDurationInMinutes = value; }
-        }
-        public bool TimeIsSet
-        {
-            get { return timeIsSet; }
-            private set { timeIsSet = value; }
-        }
+        }        
         public DateTime CurrentTime
         {
             get { return currentTime; }
@@ -124,32 +118,23 @@ namespace ClockEngine
                 AutoScheduleNextAlarmRingEvent();
             }
         }
-        public void DisableAlarm()
+        private void DisableAlarm()
         {
-            if (AlarmState == AlarmState.AlarmRinging)
-            {
-
-            }
-            else if (AlarmState == AlarmState.AlarmOn)
-            {
-                AlarmState = AlarmState.AlarmOff;
-                CurrentSnoozeCount = 0;
-            }
-
+            AlarmState = AlarmState.AlarmOff;
+            CurrentSnoozeCount = 0;
         }
-        public void StartPlayAlarm()
+        public void StartRingingAlarm()
         {
             AlarmState = AlarmState.AlarmRinging;
         }
         #endregion
 
-        // Modify alarm timing
+        // Modify Alarm Timing
         #region
         public void SetAlarmTime(DateTime time)
         {
-            if (TimeIsSet)
+            if (TimeSettingState == TimeSettingState.TimeSet)
             {
-                TimeSettingState = TimeSettingState.TimeSet;
                 AlarmSetTime = time;
 
                 // Should setting the alarm time clear all snooze settings?
@@ -158,10 +143,7 @@ namespace ClockEngine
                 AutoScheduleNextAlarmRingEvent();
             }
         }
-        public void ClearAlarmTime()
-        {
-            TimeSettingState = TimeSettingState.NoTimeSet;
-        }
+       
         #endregion
 
         // Set Time
@@ -169,11 +151,11 @@ namespace ClockEngine
         public void SetCurrentTime(DateTime newTime)
         {
             CurrentTime = newTime;
-            TimeIsSet = true;
+            TimeSettingState = TimeSettingState.TimeSet;
         }
         #endregion
 
-        // Schedule alarm events
+        // Schedule Alarm Events
         #region
         private void AutoScheduleNextAlarmRingEvent()
         {

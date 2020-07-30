@@ -84,11 +84,12 @@ namespace Tests
                 newAlarmTime.Hour, 
                 newAlarmTime.Minute + clock.SnoozeDurationInMinutes, 
                 newAlarmTime.Second);
-
+            //expectedSnoozeAlarmTime.AddMinutes(clock.SnoozeDurationInMinutes);
+           
             // Act            
             clock.SetCurrentTime(newClockTime);
             clock.SetAlarmTime(newAlarmTime);
-            clock.StartPlayAlarm();
+            clock.StartRingingAlarm();
             clock.HandleSnoozeButtonPressedEvent();
 
             // Assert
@@ -107,7 +108,7 @@ namespace Tests
             clock.EnableAlarm();
             clock.SetCurrentTime(newClockTime);
             clock.SetAlarmTime(newAlarmTime);
-            clock.StartPlayAlarm();
+            clock.StartRingingAlarm();
             clock.HandleSnoozeButtonPressedEvent();
 
             // Assert
@@ -130,7 +131,7 @@ namespace Tests
             // Max out snooze presses
             for(int snoozePressLoops = clock.MaxSnoozes; snoozePressLoops < clock.MaxSnoozes; snoozePressLoops++)
             {
-                clock.StartPlayAlarm();
+                clock.StartRingingAlarm();
                 clock.HandleSnoozeButtonPressedEvent();
             }            
 
@@ -140,31 +141,28 @@ namespace Tests
         [Test]
         public void TurningOffAlarmDuringRingAutoSetsTomorrowsAlarmTime()
         {
-            /*
             // Arrange
             Clock clock = new Clock();
             DateTime newClockTime = new DateTime(2000, 1, 1);
-            DateTime initialAlarmTime = new DateTime(2000, 1, 2,0,0,0);
-            DateTime expectedAlarmTimeTomorow = (
-                
-                )
-            AlarmState expectedAlarmState = AlarmState.AlarmOff;
+            DateTime newAlarmTime = new DateTime(2000, 1, 2, 0, 0, 0);
+            DateTime expectedAlarmTimeTomorow = new DateTime(
+                newAlarmTime.Year,
+                newAlarmTime.Month,
+                newAlarmTime.Day + 1,
+                newAlarmTime.Hour,
+                newAlarmTime.Minute,
+                newAlarmTime.Second
+                );
 
             // Act
             clock.EnableAlarm();
             clock.SetCurrentTime(newClockTime);
             clock.SetAlarmTime(newAlarmTime);
-
-            // Max out snooze presses
-            for (int snoozePressLoops = clock.MaxSnoozes; snoozePressLoops < clock.MaxSnoozes; snoozePressLoops++)
-            {
-                clock.StartPlayAlarm();
-                clock.HandleSnoozeButtonPressedEvent();
-            }
+            clock.StartRingingAlarm();
+            clock.HandleStopAlarmButtonPressedEvent();
 
             // Assert
-            Assert.AreEqual(clock.AlarmState, expectedAlarmState);
-            */
+            Assert.AreEqual(expectedAlarmTimeTomorow, clock.NextAlarmRingTime);
         }
 
     }

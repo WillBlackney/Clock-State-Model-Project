@@ -2,19 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace ClockModelEngine
+namespace ClockMachineEngine
 {
+    // Abstract Base Class
     public abstract class State
     {
-        public ClockModel myClockModel;
-        public virtual void OnStateSet()
-        {
-            
-        }
-        public virtual void OnStateExit()
-        {
-
-        }
+        public ClockMachine myClockModel;
+        public abstract void OnStateEntered();
+        public abstract void OnStateExitted();
     }
 }
 
